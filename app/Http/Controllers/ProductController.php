@@ -12,6 +12,8 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $products=product::paginate(5);
+        return view("produits.index",compact('products'));
         //
     }
 
@@ -54,6 +56,7 @@ class ProductController extends Controller
      */
     public function show(product $product)
     {
+        return view('produits.show', compact('product'));
         //
     }
 
@@ -62,6 +65,8 @@ class ProductController extends Controller
      */
     public function edit(product $product)
     {
+        return view("produits.edit", compact('product'));
+
         //
     }
 
@@ -70,6 +75,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, product $product)
     {
+        $product->update($request->all());
+        return redirect()->route('products.index')
+                ->with('info','Le produit a bien ete modifie');
+
+
+
         //
     }
 
@@ -78,6 +89,11 @@ class ProductController extends Controller
      */
     public function destroy(product $product)
     {
+        $product->delete();
+        return back()->with('info','le produit a bien ete supprimer');
+
+
         //
     }
 }
+
